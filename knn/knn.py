@@ -6,6 +6,7 @@
 # find the majority class among these items
 # return the majority class as our prediction for the class of inX
 
+
 from numpy import *
 import operator
 def createDataSet():
@@ -40,6 +41,7 @@ def file2matrix(filename):
     num_lines = len(file.readlines())
     return_matrix = zeros((num_lines,3))
     class_label_vector = []
+    file = open(filename)
     index = 0
     for line in file.readlines():
         line = line.strip()
@@ -48,10 +50,10 @@ def file2matrix(filename):
         class_label_vector.append(int(list_from_line[-1]))
         index += 1
     return return_matrix, class_label_vector
-    
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     group, labels = createDataSet()
     results = classify0([0,0],group,labels,3)
+    dating_data_mat, dating_labels = file2matrix('datingTestSet.txt')
 
 
