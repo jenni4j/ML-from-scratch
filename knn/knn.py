@@ -36,8 +36,8 @@ def classify0(inX, dataSet, labels, k):
     sortedClassCount = sorted(classCount, key=classCount.__getitem__,reverse=True)
     return sortedClassCount[0]
 
-#if __name__ == '__main__':
- #   group, labels = createDataSet()
-  #  results = classify0([0,0],group,labels,3)
+if __name__ == '__main__':
+    group, labels = createDataSet()
+    results = classify0([0,0],group,labels,3)
 
 
