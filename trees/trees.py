@@ -5,10 +5,11 @@ def createDataSet():
     labels = ['no surfacing', 'flippers']
     return dataSet, labels
 
+#function to calculate Shannon entropy of a dataset
 def calcShannonEnt(dataSet):
     numEntries = len(dataSet)
     labelCounts = {}
-    #create dictionary of all possible classes
+    #create dictionary whose keys are the label of the example
     for featVec in dataSet:
         currentLabel = featVec[-1]
         if currentLabel not in labelCounts.keys():
@@ -21,3 +22,12 @@ def calcShannonEnt(dataSet):
         shannonEnt -= prob * log(prob,2)
     return shannonEnt
 
+#axis is feature we split on and value is feature to return
+def splitDataSet(dataSet, axis, value):
+    retDataSet = []
+    for featVec in dataSet:
+        if featVec[axis] == value:
+            reducedFeatVec = featVec[:axis]
+            reducedFeatVec.extend(featVec[axis+1:])
+            redDataSet.append(reducedFeatVec)
+    return retDataSet
