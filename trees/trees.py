@@ -22,6 +22,7 @@ def calcShannonEnt(dataSet):
         shannonEnt -= prob * log(prob,2)
     return shannonEnt
 
+#for classifier to work, we need ability to split dataset and measure entropy on the split sets
 #axis is feature we split on and value is feature to return
 def splitDataSet(dataSet, axis, value):
     retDataSet = []
@@ -31,3 +32,25 @@ def splitDataSet(dataSet, axis, value):
             reducedFeatVec.extend(featVec[axis+1:])
             redDataSet.append(reducedFeatVec)
     return retDataSet
+
+#combine the Shannon entropy calc and split data func to cycle through dataset and decide which feature is best to split on
+def chooseBestFeatureToSplit(dataSet):
+    numFeatures = len(dataSet[0]) - 1
+    baseEntropy = calcShannonEnt(dataSet)
+    bestInfoGain = 0.0
+    bestFeature = -1
+    for i in range(numFeatures):
+        featList = [example[i] for example in dataSet]
+        uniqueVals = set(featList)
+        newEntropy = 0.0
+        for value in uniqueVals:
+            subDataSet = splitDataSet(dataSet, i, value)
+            prob = len(subDataSet)/float(len(dataSet))
+            newEntropy += prob * calcShannonEnt(subDataSet)
+        infoGain = baseEntropy - newEntropy
+        if (infoGain > bestInfoGain):
+            bestInfoGain = infoGain
+            bestFeature = i
+        return bestFeature
+
+
