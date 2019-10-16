@@ -1,3 +1,5 @@
+from numpy import *
+
 def loadDataSet():
     postingList = [['my', 'dog', 'has', 'flea', 'problems', 'help', 'please'],['maybe', 'not', 'take', 'him', 'to', 'dog', 'park', 'stupid'],['my', 'dalmation', 'is', 'so', 'cute', 'I', 'love', 'him'],['stop', 'posting', 'stupid', 'worthless', 'garbage'],['mr', 'licks', 'ate', 'my', 'steak', 'how','to', 'stop', 'him'],['quit', 'buying', 'worthless', 'dog', 'food', 'stupid']]
     classVec = [0,1,0,1,0,1]
@@ -17,5 +19,25 @@ def setOfWords2Vec(vocabList, inputSet):
         else:
             print("the word: %s is not in my vocabulary!" % word)
     return returnVec
+
+def trainNBO(trainMatrix, trainCategory):
+    numTrainDocs = len(trainMatrix)
+    numWords = len(trainMatrix[0])
+    #note that class=1 is abusive document
+    pAbusive = sum(trainCategory)/float(numTrainDocs)
+    pONum = zeros(numWords)
+    p1Num = zeros(numWords)
+    pODenom = 0.0
+    p1Denom = 0.0
+    for i in range(numTrainDocs):
+        if trainCategory[i] == 1:
+            p1Num += trainMatrix[i]
+            p1Denom += sum(trainMatrix[i])
+        else:
+            pONum += trainMatrix[i]
+            pODenom += sum(trainMatrix[i])
+    p1Vect = p1Num/p1Denom
+    pOVect = pONum/pODenom
+    return pOVect,p1Vect,pAbusive
 
 
