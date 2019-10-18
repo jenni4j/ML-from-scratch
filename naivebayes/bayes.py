@@ -25,10 +25,10 @@ def trainNBO(trainMatrix, trainCategory):
     numWords = len(trainMatrix[0])
     #note that class=1 is abusive document
     pAbusive = sum(trainCategory)/float(numTrainDocs)
-    pONum = zeros(numWords)
-    p1Num = zeros(numWords)
-    pODenom = 0.0
-    p1Denom = 0.0
+    pONum = ones(numWords)
+    p1Num = ones(numWords)
+    pODenom = 2.0
+    p1Denom = 2.0
     for i in range(numTrainDocs):
         if trainCategory[i] == 1:
             p1Num += trainMatrix[i]
@@ -36,8 +36,17 @@ def trainNBO(trainMatrix, trainCategory):
         else:
             pONum += trainMatrix[i]
             pODenom += sum(trainMatrix[i])
-    p1Vect = p1Num/p1Denom
-    pOVect = pONum/pODenom
+    p1Vect = log(p1Num/p1Denom)
+    pOVect = log(pONum/pODenom)
     return pOVect,p1Vect,pAbusive
+
+def classifyNB(vec2Classify, pOVec, p1Vec, pClass1):
+    p1 = sum(vec2Classify * p1Vec) + log(pClass1)
+    pO = sum(vec2Classify * pOVec) + log(1.0 - pClass1)
+    if p1 > pO:
+        return 1
+    else:
+        return 0
+        
 
 
