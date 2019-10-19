@@ -47,6 +47,12 @@ def classifyNB(vec2Classify, pOVec, p1Vec, pClass1):
         return 1
     else:
         return 0
-        
+
+def textParse(bigString):
+    import re
+    listOfTokens = re.split(r'\W*', bigString)
+    return [tok.lower() for tok in listOfTokens if len(tok) >2]
+
+def spamTest():
 
 
